@@ -44,5 +44,4 @@ https://www.figma.com/design/f9finWkb6zvBDSkksVYcpd/Prot%C3%B3tipo-Lo-Fi-Cesar-S
 --- 
 
 ## Histórias no Youtube
-<img width="1846" height= "370" alt="image" src="https://youtu.be/aNX7ceUMCEs" />
 https://youtu.be/aNX7ceUMCEs
