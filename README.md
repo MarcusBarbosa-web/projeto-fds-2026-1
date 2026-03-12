@@ -38,6 +38,12 @@ https://docs.google.com/document/d/1yLYbp5KL1Ax2EQpBs_EB21WhbjQOc-myWcVmXJJE8rs/
 
 ---
 
+## Sprint 1 JIRA
+<img width="1116" height="268" alt="image" src="https://github.com/user-attachments/assets/940f8c37-f908-4b85-ace8-1beb2c36e868" />
+
+
+---
+
 ## Projetos Lo-Fi
 https://www.figma.com/design/f9finWkb6zvBDSkksVYcpd/Prot%C3%B3tipo-Lo-Fi-Cesar-Scool-Status?node-id=0-1&p=f&t=NQZeaorf1CN2IcHn-0
 
