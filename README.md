@@ -27,20 +27,21 @@ O *Cesar School Status* é uma aplicação web desenvolvida para monitorar e com
 **Professor:** Maurício da Motta Braga
 
 ---
-
+<details>
+<summary>ENTREGA 01</summary>
+  
 ## Histórias Usando BDD
+### Scrums
 https://docs.google.com/document/d/1yLYbp5KL1Ax2EQpBs_EB21WhbjQOc-myWcVmXJJE8rs/edit?usp=sharing
+
+### Sprints
+<img width="1852" height="357" alt="image" src="https://github.com/user-attachments/assets/0b7399f4-5409-4ed6-9318-99342d77bc25" />
+
 
 ---
 
 ## Backlog JIRA
 <img width="1846" height="370" alt="image" src="https://github.com/user-attachments/assets/98b377ba-57a2-458f-8f2e-8f27ee827596" />
-
----
-
-## Sprint 1 JIRA
-<img width="1116" height="268" alt="image" src="https://github.com/user-attachments/assets/940f8c37-f908-4b85-ace8-1beb2c36e868" />
-
 
 ---
 
@@ -51,3 +52,5 @@ https://www.figma.com/design/f9finWkb6zvBDSkksVYcpd/Prot%C3%B3tipo-Lo-Fi-Cesar-S
 
 ## Histórias no Youtube
 https://youtu.be/aNX7ceUMCEs
+
+</details>
