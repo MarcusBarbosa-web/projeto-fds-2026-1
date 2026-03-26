@@ -1,0 +1,24 @@
+{% load static %} <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}C.E.S.A.R School Status{% endblock %}</title> <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <h1 class="logo">CESAR School Status</h1>
+        <div class="usuario">
+            <div class="info-usuario">
+                <span class="username">[Nome]</span>
+                <a href="login.html" class"deslogar">Deslogar</a>
+            </div>
+            <div class="avatar">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+    {% {% endblock %} %}
+</body>
+</html>
