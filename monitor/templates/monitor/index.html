@@ -1,0 +1,55 @@
+{% extends "monitor/base.html" %}
+
+{% block content %} 
+    <main class="canva">
+        <div class="dashbord">
+            <div class="titulo-dashbord">Log Lyceum</div>
+
+            <div class="lista-status">
+                <div class="status-item">
+                    <div class="info-status">
+                        <h3>Sistema Acadêmico</h3>
+                        <p>Última Atualizaçâo: 12:00</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                    </div>
+                    <div class="indicador-status">
+                        <span class="ponto verde"></span>
+                        <span class="texto-status">Funcionando</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lista-status">
+                <div class="status-item">
+                    <div class="info-status">
+                        <h3>Sistema Acadêmico</h3>
+                        <p>Última Atualizaçâo: 12:01</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                    </div>
+                    <div class="indicador-status">
+                        <span class="ponto vermelho"></span>
+                        <span class="texto-status">Fora do Ar</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lista-status">
+                <div class="status-item">
+                    <div class="info-status">
+                        <h3>Sistema Acadêmico</h3>
+                        <p>Última Atualizaçâo: 12:00</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                    </div>
+                    <div class="indicador-status">
+                        <span class="ponto amarelo"></span>
+                        <span class="texto-status">Instável</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <nav class="btn-acao">
+            <a href="#" class="btn">Declarar Incidente</a>
+            <a href="#" class="btn">Histórico</a>
+            <a href="#" class="btn">Smart Status</a>
+        </nav>
+    </main>
+{% endblock %}
