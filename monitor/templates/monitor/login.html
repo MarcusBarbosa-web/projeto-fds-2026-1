@@ -33,13 +33,13 @@
                     {% csrf_token %}
 
                     <div class="grupo-input">
-                        <input type="text" name="nome" placeholder="Digite seu Email:" required>
+                        <input type="text" name="username" placeholder="Digite seu Email:" required>
                     </div>
                     <div class="grupo-input">
-                        <input type="password" name="senha" placeholder="Digite sua senha:" required>
+                        <input type="password" name="password" placeholder="Digite sua senha:" required>
                     </div>
 
-                    {% if form.error %}
+                    {% if form.errors %}
                         <p class="erro-login">E-mail ou Senha incorreto</p>
                     {% endif %}
 
