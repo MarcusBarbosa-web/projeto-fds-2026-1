@@ -39,6 +39,11 @@ https://docs.google.com/document/d/1yLYbp5KL1Ax2EQpBs_EB21WhbjQOc-myWcVmXJJE8rs/
 
 ---
 
+### Quadro
+<img width="1240" height="696" alt="image" src="https://github.com/user-attachments/assets/36d73ea7-282f-44e9-baa1-7da0b9353aff" />
+
+---
+
 ## Backlog JIRA
 <img width="1846" height="370" alt="image" src="https://github.com/user-attachments/assets/98b377ba-57a2-458f-8f2e-8f27ee827596" />
 
