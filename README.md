@@ -35,8 +35,7 @@ O *Cesar School Status* é uma aplicação web desenvolvida para monitorar e com
 https://docs.google.com/document/d/1yLYbp5KL1Ax2EQpBs_EB21WhbjQOc-myWcVmXJJE8rs/edit?usp=sharing
 
 ### Sprints
-<img width="1825" height="304" alt="image" src="https://github.com/user-attachments/assets/f782a06e-4856-430d-a5db-5d987fb3ba5b" />
-
+<img width="1833" height="308" alt="image" src="https://github.com/user-attachments/assets/5a2595dc-f64e-47ba-90e5-0f73b245c4e7" />
 
 ---
 
