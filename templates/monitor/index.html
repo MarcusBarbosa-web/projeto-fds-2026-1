@@ -9,7 +9,7 @@
                 <div class="status-item">
                     <div class="info-status">
                         <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualizaçâo: 12:00</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                        <p>Última Atualização: 12:00</p>
                     </div>
                     <div class="indicador-status">
                         <span class="ponto verde"></span>
@@ -22,7 +22,7 @@
                 <div class="status-item">
                     <div class="info-status">
                         <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualizaçâo: 12:01</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                        <p>Última Atualização: 12:01</p>
                     </div>
                     <div class="indicador-status">
                         <span class="ponto vermelho"></span>
@@ -35,7 +35,7 @@
                 <div class="status-item">
                     <div class="info-status">
                         <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualizaçâo: 12:00</p> <!-- Isso aq vai mudar de acordo com o horario que foi atualizado pela ultima vez-->
+                        <p>Última Atualização: 12:00</p>
                     </div>
                     <div class="indicador-status">
                         <span class="ponto amarelo"></span>
@@ -47,8 +47,8 @@
         </div>
 
         <nav class="btn-acao">
-            <a href="#" class="btn">Declarar Incidente</a>
-            <a href="#" class="btn">Histórico</a>
+            <a href="{% url 'registrar_incidente' %}" class="btn">Declarar Incidente</a>
+            <a href="{% url 'historico' %}" class="btn">Histórico</a>
             <a href="#" class="btn">Smart Status</a>
         </nav>
     </main>
