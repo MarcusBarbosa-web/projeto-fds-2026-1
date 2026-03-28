@@ -1,0 +1,51 @@
+{% extends 'monitor/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+
+    <div class="voltar">
+        <a href="{% url 'incidentes_ativos' %}" style="text-decoration: none;">
+            <button type="button">Voltar</button>
+        </a>
+    </div>
+
+    <div class="titulo">
+        <div class="btn-principal" style="display: inline-block;">Registrar Incidente</div>
+    </div>
+
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label>Sistema Afetado</label>
+            <select name="sistema">
+                <option value="portal">Portal do Aluno</option>
+                <option value="lyceum">Lyceum</option>
+                <option value="chamada">Chamada</option>
+            </select>
+
+            <label>Status</label>
+            <select name="status">
+                <option value="instavel">Instável</option>
+                <option value="fora_do_ar">Fora Do Ar</option>
+            </select>
+
+            <label>Descrição do Problema</label>
+            <input type="text" name="descricao" maxlength="20" placeholder="Max(20 Letras)">
+
+            <label>Prioridade</label>
+            <select name="prioridade">
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
+            <div class="rodape">
+                <button type="submit" class="btn-principal">Registrar Incidente</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+{% endblock %}

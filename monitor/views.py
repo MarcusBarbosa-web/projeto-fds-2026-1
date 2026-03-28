@@ -8,3 +8,6 @@ def historico(request):
 
 def incidentes_ativos(request):
     return render(request, 'monitor/incidentes_ativos.html')
+
+def registrar_incidente(request):
+    return render(request, 'monitor/registrar_novo.html')
