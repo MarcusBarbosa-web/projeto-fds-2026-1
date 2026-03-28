@@ -410,3 +410,140 @@ body, html {
 .item-incidente strong {
     color: #000;
 }
+/* =======================================================
+   6. TELA DE INCIDENTES
+======================================================= */
+
+
+.container-reporte {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start; 
+    background-color: #f0f0f0;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.cartao-reporte {
+    background-color: var(--cor-principal);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    height: auto;
+    display: table;
+}
+
+.cartao-reporte h2 {
+    color: white;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Sistema de Colunas */
+.colunas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.coluna textarea {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 150px;
+    max-height: 300px;
+    width: 100%;
+}
+
+.coluna label {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--texto-escuro);
+}
+
+.coluna input, .coluna select, .coluna textarea {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.coluna input:focus, .coluna textarea:focus {
+    border-color: var(--cor-principal);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-enviar {
+    background-color: white;
+    color: var(--cor-principal);
+    border: none;
+    padding: 12px 40px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: #eee;
+    transform: scale(1.05);
+}
+
+.voltar-reporte {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; 
+    margin-bottom: 20px; 
+}
+
+.voltar-reporte .btn-voltar {
+    position: static; 
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.voltar-reporte .btn-voltar:hover {
+    background-color: #e15300;
+    transform: scale(1.05);
+}
+
+body {
+    overflow-y: auto;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+    .colunas-grid {
+        grid-template-columns: 1fr;
+    }
+}

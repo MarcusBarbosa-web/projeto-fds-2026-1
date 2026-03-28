@@ -2,48 +2,39 @@
 {% load static %}
 
 {% block content %}
-<main class="container-ativos">
-
-    <div class="voltar-ativos">
-        <a href="{% url 'index' %}" style="text-decoration: none;"> <button type="button">Voltar</button>
-        </a>
+<main class="container-reporte">
+    <div class="voltar-reporte">
+        <a href="{% url 'index' %}" class="btn-voltar">Voltar</a>
     </div>
 
-    <div class="card-principal">
-        <h2>Incidentes Ativos</h2>
+    <div class="cartao-reporte">
+        <h2>Registrar Novo Reporte</h2>
+        
+        <form method="post" class="form-colunas">
+            {% csrf_token %}
+            <div class="colunas-grid">
+                <div class="coluna">
+                    <label>Sistema</label>
+                    <input type="text" name="sistema" placeholder="Ex: Portal do Aluno">
+                    
+                    <label>Tipo de Problema</label>
+                    <select name="problema">
+                        <option value="instavel">Instável</option>
+                        <option value="fora_do_ar">Fora do Ar</option>
+                        <option value="lentidao">Lentidão</option>
+                    </select>
+                </div>
 
-        <div class="incidente">
-            <p><strong>Sistema:</strong> Portal do Aluno</p>
-            <p><strong>Problema:</strong> Instável</p>
-            <p><strong>Status:</strong> Resolvido 12:12</p>
-            <p><strong>Descrição:</strong> Lentidão no Acesso</p>
-            <div class="acoes">
-                <button class="mini">Editar</button>
-                <button class="mini">Deletar</button>
+                <div class="coluna">
+                    <label>Descrição Detalhada</label>
+                    <textarea name="descricao" rows="5" placeholder="Descreva o erro..."></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="incidente">
-            <p><strong>Sistema:</strong> Sistema de Chamada</p>
-            <p><strong>Problema:</strong> Instável</p>
-            <p><strong>Descrição:</strong> Instável</p>
-            <p><strong>Status:</strong> Aberto (12/03)</p>
-        </div>
-
-        <div class="incidente">
-            <p><strong>Sistema:</strong> Ambiente Virtual</p>
-            <p><strong>Problema:</strong> Instável</p>
-            <p><strong>Descrição:</strong> Instável</p>
-            <p><strong>Status:</strong> Resolvido (12/03)</p>
-        </div>
+            <div class="btn-container">
+                <button type="submit" class="btn-enviar">Enviar Reporte</button>
+            </div>
+        </form>
     </div>
-
-    <div class="botoes">
-        <a href="{% url 'registrar_novo' %}" style="text-decoration: none;">
-            <button type="button" class="btn-principal">Registrar Incidente</button>
-        </a>
-        <button type="button" class="btn-principal">Resolver Incidente</button>
-    </div>
-
 </main>
 {% endblock %}
