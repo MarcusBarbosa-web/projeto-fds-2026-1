@@ -1,0 +1,59 @@
+{% extends 'monitor/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="historico-container">
+  
+  <div class="voltar">
+    <a href="{% url 'index' %}" class="btn-voltar">Voltar</a>
+  </div>
+
+  <div class="container-dashboard">
+    <div class="card-historico">
+      <h2>Incidentes Ativos</h2>
+
+      <div class="Lista-incidentes">
+        
+        {# No futuro, usaremos um {% for incidente in incidentes %} aqui #}
+        
+        <div class="item-incidente">
+          <p><strong>Sistema:</strong> Portal do Aluno</p>
+          <p><strong>Problema:</strong> Instável</p>
+          <p><strong>Status:</strong> Resolvido 12:12</p>
+          <p><strong>Descrição:</strong> Lentidão no Acesso</p>
+          
+          {% if user.is_authenticated %}
+          <div class="acoes-hover">
+            <a href="#" class="btn-mini">Editar</a>
+            <a href="#" class="btn-mini">Deletar</a>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="item-incidente">
+          <p><strong>Sistema:</strong> Sistema de Chamada</p>
+          <p><strong>Problema:</strong> Instável</p>
+          <p><strong>Descrição:</strong> Instável</p>
+          <p><strong>Status:</strong> Aberto (12/03)</p>
+        </div>
+
+        <div class="item-incidente">
+          <p><strong>Sistema:</strong> Ambiente Virtual</p>
+          <p><strong>Problema:</strong> Instável</p>
+          <p><strong>Descrição:</strong> Instável</p>
+          <p><strong>Status:</strong> Resolvido (12/03)</p>
+        </div>
+
+      </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="container-botoes-inferiores">
+      <a href="{% url 'registrar_incidente' %}" class="btn-acao-principal">Registrar Incidente</a>
+      <a href="#" class="btn-acao-principal">Resolver Incidente</a>
+    </div>
+    {% endif %}
+  </div>
+
+</main>
+{% endblock %}

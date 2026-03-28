@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('historico/', views.historico, name='historico'),
+    path('incidentes-ativos/', views.incidentes_ativos, name='incidentes_ativos'),
 ]

@@ -5,3 +5,6 @@ def index(request):
 
 def historico(request):
     return render(request, 'monitor/historico.html')
+
+def incidentes_ativos(request):
+    return render(request, 'monitor/incidentes_ativos.html')
