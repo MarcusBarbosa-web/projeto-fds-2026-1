@@ -62,11 +62,15 @@ https://youtu.be/aNX7ceUMCEs
 
 ## Jira
 ---
+
 ### Sprint 02
 <img width="1826" height="245" alt="image" src="https://github.com/user-attachments/assets/5ae67e17-2637-4667-984d-a333f5d7a150" />
+
 ---
+
 ### Quadro Jira
 <img width="1423" height="762" alt="image" src="https://github.com/user-attachments/assets/8483a314-eb26-4cd1-b84b-e2c2e7b5ccbb" />
+
 ---
 
 </details>
