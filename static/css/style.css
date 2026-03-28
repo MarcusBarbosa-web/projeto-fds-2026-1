@@ -16,6 +16,7 @@ body, html{
     display: flex;
     flex-direction: column;
     background-color: black;
+     overflow: hidden;
 }
 
 .navbar{
@@ -334,4 +335,60 @@ body, html{
     font-size: 12px;
     margin: 0;
     font-weight: bold;
+}
+
+.historico-container{
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-voltar{
+    display: inline-block;
+    align-self: flex-start;
+    margin: 20px 0 20px 20px;
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+    padding: 10px 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cartao-historico{
+    background-color: var(--cor-principal);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.cartao-historico h2{
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.lista-incidentes{
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.item-incidente p{
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--texto-escuro);
+}
+
+.item-incidente strong{
+    color: #000;
 }

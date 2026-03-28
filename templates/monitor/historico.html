@@ -3,34 +3,36 @@
 
 {% block content %}
     <main class="historico-container">
-        <a href="{% url 'index' %}">Voltar</a>
+        <a href="{% url 'index' %}" class="btn-voltar">Voltar</a>
 
-        <div class="card-historico">
+        <div class="cartao-historico">
             <h2>Histórico de Incidentes</h2>
 
-            <div class="Lista-incidentes">
-
+            <div class="lista-incidentes">
                 <div class="item-incidente">
                     <p><strong>Sistema:</strong> Portal do Aluno</p>
                     <p><strong>Problema:</strong> Instável</p>
                     <p><strong>Status:</strong> Aberto (12/03)</p>
                     <p><strong>Descrição:</strong> Lentidão no Acesso</p>
                 </div>
+            </div>
 
+            <div class="lista-incidentes">
                 <div class="item-incidente">
                     <p><strong>Sistema:</strong> Chamada</p>
                     <p><strong>Problema:</strong> Fora do Ar</p>
                     <p><strong>Status:</strong> Fechado (11/03)</p>
                     <p><strong>Descrição:</strong> Sistema fora do ar</p>
                 </div>
+            </div>
 
+            <div class="lista-incidentes">
                 <div class="item-incidente">
                     <p><strong>Sistema:</strong> Lyceum</p>
                     <p><strong>Problema:</strong> Instável</p>
                     <p><strong>Status:</strong> Fechado (11/03)</p>
                     <p><strong>Descrição:</strong> Lentidão no Acesso</p>
                 </div>
-
             </div>
         </div>
     </main>
