@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 
 class Sistema(models.Model):
@@ -41,3 +43,24 @@ class Incidente(models.Model):
 # `models.TextField()` -> Para textos longos e sem limite.
 # `models.DateTimeField(auto_now_add=True) -> Pra gente saber a data e hora exata em que algo caiu, quando registrarem um incidente o `auto_now_add` vai pegar a data do sistema sozinho e guardar.
 # -------------------------------------------------------------------------------
+
+class Incidente(models.Model):
+    SISTEMA_CHOICES = [
+        ('Portal do Aluno', 'Portal do Aluno'),
+        ('Lyceum', 'Lyceum'),
+        ('Chamada', 'Chamada'),
+    ]
+
+    STATUS_CHOICES = [
+        ('Funcionando', 'Funcionando'),
+        ('Instável', 'Instável'),
+        ('Fora do Ar', 'Fora do Ar'),
+    ]
+
+    sistema = models.CharField(max_length=50, choices=SISTEMA_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    descricao = models.TextField()
+    data_criacao = models.DateTimeField(default=timezone.now) 
+
+    def __str__(self):
+        return f"{self.sistema} - {self.status}"

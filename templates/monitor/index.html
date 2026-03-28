@@ -3,48 +3,42 @@
 {% block content %} 
     <main class="canva">
         <div class="dashbord">
-            <div class="titulo-dashbord">Log Lyceum</div>
+            <div class="titulo-dashbord">Status dos Sistemas</div>
 
+            {% for incidente in incidentes %}
             <div class="lista-status">
                 <div class="status-item">
                     <div class="info-status">
-                        <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualização: 12:00</p>
+                        <h3>{{ incidente.sistema }}</h3>
+                        
+                        <p>Última Atualização: {{ incidente.data_criacao|date:"d/m às H:i" }}</p>
                     </div>
                     <div class="indicador-status">
-                        <span class="ponto verde"></span>
-                        <span class="texto-status">Funcionando</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lista-status">
-                <div class="status-item">
-                    <div class="info-status">
-                        <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualização: 12:01</p>
-                    </div>
-                    <div class="indicador-status">
-                        <span class="ponto vermelho"></span>
-                        <span class="texto-status">Fora do Ar</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lista-status">
-                <div class="status-item">
-                    <div class="info-status">
-                        <h3>Sistema Acadêmico</h3>
-                        <p>Última Atualização: 12:00</p>
-                    </div>
-                    <div class="indicador-status">
-                        <span class="ponto amarelo"></span>
-                        <span class="texto-status">Instável</span>
+                        
+                        {% if incidente.status == 'Funcionando' %}
+                            <span class="ponto verde"></span>
+                            <span class="texto-status">Funcionando</span>
+                        
+                        {% elif incidente.status == 'instavel' or incidente.status == 'Instável' %}
+                            <span class="ponto amarelo"></span>
+                            <span class="texto-status">Instável</span>
+                        
+                        {% else %}
+                            <span class="ponto vermelho"></span>
+                            <span class="texto-status">Fora do Ar</span>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
             
-        </div>
+            {% empty %}
+                <div style="text-align: center; padding: 20px; color: #555;">
+                    <p><strong>Nenhum incidente ativo!</strong></p>
+                    <p style="font-size: 13px;">Todos os sistemas operando normalmente.</p>
+                </div>
+            {% endfor %}
+            </div>
 
         <nav class="btn-acao">
             <a href="{% url 'historico' %}" class="btn">Histórico</a>
