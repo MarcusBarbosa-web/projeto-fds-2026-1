@@ -72,7 +72,7 @@ https://youtu.be/Lyjcu25ru28
 <img width="1423" height="762" alt="image" src="https://github.com/user-attachments/assets/8483a314-eb26-4cd1-b84b-e2c2e7b5ccbb" />
 
 ### Screencast
-https://youtu.be/wG2SWTn-Wm4
+https://youtu.be/YIFUyZR4iYc
 
 ---
 
