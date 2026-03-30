@@ -84,13 +84,9 @@ https://youtu.be/YIFUyZR4iYc
 ### Pair programming
 <details>
 <summary>Saiba Mais</summary>
-Apesar de a programação em par ser uma prática recomendada no desenvolvimento de software, não conseguimos aplicar nessa entrega do projeto. A principal dificuldade encontrada pelo nosso grupo esteva relacionada à organização e à sincronização de horários entre os integrantes do grupo, o que dificultou a realização de programação em par 
+Embora a programação em pares seja uma prática bem recomendada no desenvolvimento de software, a gente não conseguiu usá-la nessa entrega do projeto. O maior problema do nosso grupo foi mesmo organizar e sincronizar os horários entre os cinco integrantes, o que complicou bastante fazer sessões de pair programming.
 
-Como se trata de uma equipe com cinco membros, conciliar disponibilidade para que todos pudessem trabalhar simultaneamente em pares mostrou-se um desafio. Com isso, o desenvolvimento acabou ocorrendo de maneira mais individual na maior parte do tempo, com divisão de tarefas entre os integrantes e posterior integração das funcionalidades.
-
-Além disso, optamos por priorizar o andamento do projeto dentro dos prazos estabelecidos, o que levou o grupo a adotar uma abordagem mais flexível, focada na entrega das funcionalidades. Mesmo sem a aplicação constante da programação em par, buscamos manter a colaboração por meio de revisões de código, trocas de conhecimento e alinhamentos frequentes entre os membros.
-
-Por fim, reconhecemos que a utilização mais estruturada da programação em par poderia ter contribuído para uma melhor organização do desenvolvimento e para a redução de erros. Dessa forma, essa experiência também serviu como aprendizado para a importância do planejamento e da adoção de práticas colaborativas de forma mais consistente em projetos futuros.
+No final, a gente sabe que usar pair programming de forma mais estruturada poderia ter ajudado na organização e em menos erros. Essa experiência foi um aprendizado legal sobre planejar melhor e aplicar práticas colaborativas de verdade nos próximos projetos.
 </details>
 </details>
 
