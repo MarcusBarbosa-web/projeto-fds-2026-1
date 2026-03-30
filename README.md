@@ -57,11 +57,13 @@ https://www.figma.com/design/f9finWkb6zvBDSkksVYcpd/Prot%C3%B3tipo-Lo-Fi-Cesar-S
 https://youtu.be/Lyjcu25ru28
 
 </details>
+
+---
+
 <details>
 <summary>ENTREGA 02</summary>
 
 ## Jira
----
 
 ### Sprint 02
 <img width="1826" height="245" alt="image" src="https://github.com/user-attachments/assets/5ae67e17-2637-4667-984d-a333f5d7a150" />
@@ -89,4 +91,6 @@ Embora a programação em pares seja uma prática bem recomendada no desenvolvim
 No final, a gente sabe que usar pair programming de forma mais estruturada poderia ter ajudado na organização e em menos erros. Essa experiência foi um aprendizado legal sobre planejar melhor e aplicar práticas colaborativas de verdade nos próximos projetos.
 </details>
 </details>
+
+---
 
