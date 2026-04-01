@@ -83,6 +83,11 @@ https://youtu.be/YIFUyZR4iYc
 
 ---
 
+### Deploy (Feita no Render)
+https://projeto-fds-2026-1.onrender.com/
+
+---
+
 ### Pair programming
 <details>
 <summary>Saiba Mais</summary>
