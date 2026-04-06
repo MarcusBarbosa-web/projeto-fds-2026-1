@@ -99,11 +99,8 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 </details>
 
 ---
-
 <details>
-
-<details>
-<summary>ENTREGA 02</summary>
+<summary>ENTREGA 03</summary>
 
 ## Jira
 
@@ -114,7 +111,6 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 
 ### Quadro Jira
 <img width="1363" height="761" alt="image" src="https://github.com/user-attachments/assets/cf5ac1ef-c4c6-49b2-9a65-86dcf7cc65a3" />
-
 
 ### Screencast das novas histórias
 
@@ -144,5 +140,3 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 </details>
 
 ---
-
-<details>
