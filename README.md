@@ -1,4 +1,5 @@
-# Cesar School Status 
+# Cesar School Status
+
 
 *Plataforma de monitoramento em tempo real para acompanhar a disponibilidade dos sistemas acadêmicos da Cesar School.*
 
@@ -99,3 +100,49 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 
 ---
 
+<details>
+
+<details>
+<summary>ENTREGA 02</summary>
+
+## Jira
+
+### Sprint 03
+<img width="1455" height="163" alt="image" src="https://github.com/user-attachments/assets/de97a33c-2dbe-4b4a-8502-798604806933" />
+
+---
+
+### Quadro Jira
+<img width="1363" height="761" alt="image" src="https://github.com/user-attachments/assets/cf5ac1ef-c4c6-49b2-9a65-86dcf7cc65a3" />
+
+
+### Screencast das novas histórias
+
+---
+
+### Bug/issues
+
+---
+
+### Deploy (Feita no Render)
+
+---
+
+## CI/CD
+
+---
+
+## Testes de Sistema (E2E) Automatizados
+
+--- 
+
+### Pair programming
+<details>
+<summary>Saiba Mais</summary>
+
+</details>
+</details>
+
+---
+
+<details>
