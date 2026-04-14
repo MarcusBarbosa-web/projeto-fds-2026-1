@@ -1,0 +1,39 @@
+name: Django CI
+
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+    # vai fazer um git clone\checkout no repositorio 
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    
+    #vai instalar o python
+    - name: Set up python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    # instala as dependencias 
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    # vai rodar os testes
+    - name: Run teste
+      env:
+        SECRET_KEY: 'ci-fake-secret-key'
+        DEBUG: 'True'
+      run: python manage.py test
+    
+  #deploy:
+    #needs: build
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: Deploy to Render
+        #run: curl ${{}} falta o deploy hook
