@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Incidente
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
 def index(request):
     incidentes = Incidente.objects.all().order_by('-data_criacao')
@@ -29,3 +31,17 @@ def incidentes_ativos(request):
         return redirect('index')
 
     return render(request, 'monitor/incidentes_ativos.html')
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('Email')
+        password = request.POST.get('password')
+        user = authenticate(request, Email=email, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return render(request, 'monitor/login.html', {'form': {'errors': True}})
+        
+    return render(request, 'monitor/login.html')
