@@ -1,0 +1,43 @@
+{% extends 'monitor/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container-reporte">
+    <div class="voltar-reporte">
+        <a href="{% url 'index' %}" class="btn-voltar">Voltar</a>
+    </div>
+
+    <div class="cartao-reporte">
+        <h2>Cadastrar Novo Usuário</h2>
+
+        <form method="POST" id="form-cadastro">
+            {% csrf_token %}
+            <div class="colunas-grid" style="grid-template-columns: 1fr;">
+                <div class="coluna">
+
+                    {% if mensagem %}
+                        <p style="text-align: center; color: {% if sucesso %}green{% else %}red{% endif %}; font-weight: bold;">
+                            {{ mensagem }}
+                        </p>
+                    {% endif %}
+
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="email@exemplo.com" required>
+
+                    <label>Senha</label>
+                    <input type="password" name="password1" placeholder="Digite a senha" required>
+
+                    <label>Confirmar Senha</label>
+                    <input type="password" name="password2" placeholder="Confirme a senha" required>
+
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn-enviar">Cadastrar</button>
+            </div>
+        </form>
+
+    </div>
+</main>
+{% endblock %}
