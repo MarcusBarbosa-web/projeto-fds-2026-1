@@ -1,26 +1,28 @@
 from django.shortcuts import render, redirect
-from .models import Incidente
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .models import Incidente
+
 
 @login_required(login_url='/login/')
 def index(request):
     incidentes = Incidente.objects.all().order_by('-data_criacao')
     return render(request, 'monitor/index.html', {'incidentes': incidentes})
 
+
 def historico(request):
     return render(request, 'monitor/historico.html')
+
 
 def registrar_incidente(request):
     return render(request, 'monitor/registrar_novo.html')
 
-def incidentes_ativos(request): 
 
+def incidentes_ativos(request):
     if request.method == 'POST':
-        
         sistema_form = request.POST.get('sistema')
-        status_form = request.POST.get('status') 
+        status_form = request.POST.get('status')
         descricao_form = request.POST.get('descricao')
 
         novo_incidente = Incidente(
@@ -34,16 +36,48 @@ def incidentes_ativos(request):
 
     return render(request, 'monitor/incidentes_ativos.html')
 
+
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('Email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, Email=email, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
             return redirect('index')
         else:
             return render(request, 'monitor/login.html', {'form': {'errors': True}})
-        
+
     return render(request, 'monitor/login.html')
+
+
+@login_required(login_url='/login/')
+def cadastro_view(request):
+    # Apenas admins (superusuários) podem acessar essa página
+    if not request.user.is_superuser:
+        return redirect('index')
+
+    mensagem = None
+    sucesso = False
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            mensagem = 'As senhas não coincidem.'
+
+        elif User.objects.filter(username=email).exists():
+            mensagem = 'Já existe um usuário com esse e-mail.'
+
+        else:
+            User.objects.create_user(username=email, email=email, password=password1)
+            mensagem = f'Usuário {email} cadastrado com sucesso!'
+            sucesso = True
+
+    return render(request, 'monitor/cadastro.html', {
+        'mensagem': mensagem,
+        'sucesso': sucesso,
+    })
