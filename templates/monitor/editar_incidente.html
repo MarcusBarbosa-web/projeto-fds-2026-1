@@ -2,29 +2,53 @@
 {% load static %}
 
 {% block content %}
-<main class="historico-container">
-    <a href="{% url 'index' %}" class="btn-voltar">Voltar</a>
+<main class="container-reporte">
+    <div class="voltar-reporte">
+        <a href="{% url 'gerenciar_incidentes' %}" class="btn-voltar">Voltar</a>
+    </div>
 
-    <div class="cartao-historico">
-        <h2>Gerenciar Incidentes</h2>
+    <div class="cartao-reporte">
+        <h2>Editar Incidente</h2>
 
-        {% for incidente in incidentes %}
-        <div class="lista-incidentes">
-            <div class="item-incidente">
-                <p><strong>Sistema:</strong> {{ incidente.sistema }}</p>
-                <p><strong>Status:</strong> {{ incidente.status }}</p>
-                <p><strong>Descrição:</strong> {{ incidente.descricao }}</p>
-                <p><strong>Data:</strong> {{ incidente.data_criacao|date:"d/m/Y às H:i" }}</p>
-                <div style="margin-top: 10px;">
-                    <a href="{% url 'editar_incidente' incidente.id %}" class="btn" style="font-size: 12px; padding: 8px 20px;">Editar / Resolver</a>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="colunas-grid">
+                <div class="coluna">
+
+                    <label>Sistema</label>
+                    <select name="sistema">
+                        {% for valor, label in sistemas %}
+                            <option value="{{ valor }}" {% if incidente.sistema == valor %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Status</label>
+                    <select name="status">
+                        {% for valor, label in status_choices %}
+                            <option value="{{ valor }}" {% if incidente.status == valor %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Prioridade</label>
+                    <select name="prioridade">
+                        {% for valor, label in prioridades %}
+                            <option value="{{ valor }}" {% if incidente.prioridade == valor %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+                <div class="coluna">
+                    <label>Descrição</label>
+                    <textarea name="descricao" rows="5">{{ incidente.descricao }}</textarea>
                 </div>
             </div>
-        </div>
-        {% empty %}
-            <div style="text-align: center; padding: 20px; color: #fff;">
-                <p><strong>Nenhum incidente ativo no momento!</strong></p>
+
+            <div class="btn-container" style="gap: 15px;">
+                <button type="submit" name="acao" value="salvar" class="btn-enviar">Salvar Alterações</button>
+                <button type="submit" name="acao" value="resolver" class="btn-enviar" style="background-color: #4CAF50; color: white;">Marcar como Resolvido</button>
             </div>
-        {% endfor %}
+        </form>
     </div>
 </main>
 {% endblock %}
