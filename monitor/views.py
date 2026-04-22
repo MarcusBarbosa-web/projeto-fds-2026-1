@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Incidente
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login/')
 def index(request):
     incidentes = Incidente.objects.all().order_by('-data_criacao')
     return render(request, 'monitor/index.html', {'incidentes': incidentes})
