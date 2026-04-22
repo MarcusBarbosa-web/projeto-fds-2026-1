@@ -14,7 +14,7 @@
         </svg>
         Voltar
     </a>
-    
+
     <main class="login-container">
         <div class="login-cartao">
 
@@ -33,14 +33,14 @@
                     {% csrf_token %}
 
                     <div class="grupo-input">
-                        <input type="Email" name="Email" placeholder="Digite seu Email:" required>
+                        <input type="text" name="username" placeholder="Digite seu usuário:" required>
                     </div>
                     <div class="grupo-input">
                         <input type="password" name="password" placeholder="Digite sua senha:" required>
                     </div>
 
                     {% if form.errors %}
-                        <p class="erro-login">E-mail ou Senha incorreto</p>
+                        <p class="erro-login">Usuário ou Senha incorretos</p>
                     {% endif %}
 
                     <button type="submit" class="btn-entrar">Entrar</button>
