@@ -42,10 +42,10 @@
 
         <nav class="btn-acao">
             <a href="{% url 'historico' %}" class="btn">Histórico</a>
+            <a href="{% url 'incidentes_ativos' %}" class="btn">Registrar Incidente</a>
 
             {% if user.is_authenticated %}
-                <a href="{% url 'incidentes_ativos' %}" class="btn">Registrar Incidente</a>
-                <a href="#" class="btn">Smart Status</a>
+
             {% endif %}
         </nav>
     </main>
