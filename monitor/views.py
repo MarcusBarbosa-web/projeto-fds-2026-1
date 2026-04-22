@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -7,12 +7,13 @@ from .models import Incidente
 
 @login_required(login_url='/login/')
 def index(request):
-    incidentes = Incidente.objects.all().order_by('-data_criacao')
+    incidentes = Incidente.objects.filter(resolvido=False).order_by('-data_criacao')
     return render(request, 'monitor/index.html', {'incidentes': incidentes})
 
 
 def historico(request):
-    return render(request, 'monitor/historico.html')
+    incidentes_resolvidos = Incidente.objects.filter(resolvido=True).order_by('-data_criacao')
+    return render(request, 'monitor/historico.html', {'incidentes': incidentes_resolvidos})
 
 
 def registrar_incidente(request):
@@ -54,7 +55,6 @@ def login_view(request):
 
 @login_required(login_url='/login/')
 def cadastro_view(request):
-    # Apenas admins (superusuários) podem acessar essa página
     if not request.user.is_superuser:
         return redirect('index')
 
@@ -68,10 +68,8 @@ def cadastro_view(request):
 
         if password1 != password2:
             mensagem = 'As senhas não coincidem.'
-
         elif User.objects.filter(username=email).exists():
             mensagem = 'Já existe um usuário com esse e-mail.'
-
         else:
             User.objects.create_user(username=email, email=email, password=password1)
             mensagem = f'Usuário {email} cadastrado com sucesso!'
@@ -81,3 +79,42 @@ def cadastro_view(request):
         'mensagem': mensagem,
         'sucesso': sucesso,
     })
+
+
+@login_required(login_url='/login/')
+def gerenciar_incidentes(request):
+    if not request.user.is_superuser:
+        return redirect('index')
+
+    incidentes = Incidente.objects.filter(resolvido=False).order_by('-data_criacao')
+    return render(request, 'monitor/gerenciar_incidentes.html', {'incidentes': incidentes})
+
+
+@login_required(login_url='/login/')
+def editar_incidente(request, incidente_id):
+    if not request.user.is_superuser:
+        return redirect('index')
+
+    incidente = get_object_or_404(Incidente, id=incidente_id)
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+
+        incidente.sistema = request.POST.get('sistema')
+        incidente.status = request.POST.get('status')
+        incidente.descricao = request.POST.get('descricao')
+        incidente.prioridade = request.POST.get('prioridade')
+
+        if acao == 'resolver':
+            incidente.resolvido = True
+
+        incidente.save()
+        return redirect('gerenciar_incidentes')
+
+    context = {
+        'incidente': incidente,
+        'sistemas': Incidente.SISTEMA_CHOICES,
+        'status_choices': Incidente.STATUS_CHOICES,
+        'prioridades': Incidente.PRIORIDADE_CHOICES,
+    }
+    return render(request, 'monitor/editar_incidente.html', context)
