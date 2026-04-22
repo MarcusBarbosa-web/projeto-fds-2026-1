@@ -46,6 +46,7 @@
 
             {% if user.is_superuser %}
                 <a href="{% url 'cadastro' %}" class="btn">Cadastrar Usuário</a>
+                <a href="{% url 'gerenciar_incidentes' %}" class="btn">Gerenciar Incidentes</a>
             {% endif %}
         </nav>
     </main>
