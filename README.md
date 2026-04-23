@@ -67,13 +67,15 @@ https://youtu.be/Lyjcu25ru28
 ## Jira
 
 ### Sprint 02
-<img width="1826" height="245" alt="image" src="https://github.com/user-attachments/assets/5ae67e17-2637-4667-984d-a333f5d7a150" />
+<img width="1625" height="355" alt="image" src="https://github.com/user-attachments/assets/5c5ccf80-ec14-4047-acdd-b75122b0f926" />
+
 
 ---
 
 ### Quadro Jira
-<img width="1423" height="762" alt="image" src="https://github.com/user-attachments/assets/8483a314-eb26-4cd1-b84b-e2c2e7b5ccbb" />
+<img width="1634" height="608" alt="image" src="https://github.com/user-attachments/assets/ad84b235-747d-4acc-a01d-906f0b2de453" />
 
+---
 ### Screencast
 https://youtu.be/YIFUyZR4iYc
 
@@ -105,13 +107,14 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 ## Jira
 
 ### Sprint 03
-<img width="1455" height="163" alt="image" src="https://github.com/user-attachments/assets/de97a33c-2dbe-4b4a-8502-798604806933" />
+<img width="1814" height="350" alt="image" src="https://github.com/user-attachments/assets/36608595-1c98-443c-8585-a718ef83ed1c" />
 
 ---
 
 ### Quadro Jira
-<img width="1363" height="761" alt="image" src="https://github.com/user-attachments/assets/cf5ac1ef-c4c6-49b2-9a65-86dcf7cc65a3" />
+<img width="1735" height="1053" alt="image" src="https://github.com/user-attachments/assets/60c888c9-7e7f-409f-8469-9de88454e9b0" />
 
+---
 ### Screencast das novas histórias
 
 ---
@@ -123,11 +126,6 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 ### Deploy (Feita no Render)
 
 ---
-
-## CI/CD
-
----
-
 ## Testes de Sistema (E2E) Automatizados
 
 --- 
