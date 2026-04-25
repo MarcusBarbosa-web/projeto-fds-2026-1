@@ -28,6 +28,7 @@ class Incidente(models.Model):
     prioridade = models.CharField(max_length=10, choices=PRIORIDADE_CHOICES, default='media')
     data_criacao = models.DateTimeField(default=timezone.now)
     resolvido = models.BooleanField(default=False)
+    data_atualizacao = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.sistema} - {self.status}"

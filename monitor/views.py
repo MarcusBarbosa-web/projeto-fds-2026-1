@@ -104,7 +104,7 @@ def editar_incidente(request, incidente_id):
         incidente.descricao = request.POST.get('descricao')
         incidente.prioridade = request.POST.get('prioridade')
 
-        if acao == 'resolver':
+        if acao == 'resolver' or incidente.status == 'Funcionado':
             incidente.resolvido = True
 
         incidente.save()

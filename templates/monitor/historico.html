@@ -14,7 +14,7 @@
                     <p><strong>Sistema:</strong> {{ incidente.sistema }}</p>
                     <p><strong>Status:</strong> {{ incidente.status }}</p>
                     <p><strong>Descrição:</strong> {{ incidente.descricao }}</p>
-                    <p><strong>Data:</strong> {{ incidente.data_criacao|date:"d/m/Y às H:i" }}</p>
+                    <p><strong>Data:</strong> {{ incidente.data_criacao|date:"d/m/Y H:i" }}</p>
                 </div>
             </div>
             {% empty %}
