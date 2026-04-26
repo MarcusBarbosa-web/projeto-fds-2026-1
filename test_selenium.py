@@ -97,13 +97,285 @@ class SCRUM19_VisualizarStatusSistemas(StaticLiveServerTestCase):
         self.assertTrue(tem_status, "O Aluno não encontrou indicadores de status na página.")
         time.sleep(2)
 
+# -------------------------------------------------------
+# SCRUM-20 - ESTUDANTE VISUALIZA HISTÓRICO DE INCIDENTES
+# -------------------------------------------------------
+class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
+    """
+    Como estudante, quero visualizar o histórico de incidentes,
+    para entender problemas que aconteceram anteriormente nos sistemas.
+    """
+ 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = configurar_browser()
+ 
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+        super().tearDownClass()
+ 
+    def setUp(self):
+        self.aluno = criar_aluno()
+        self.browser.delete_all_cookies()
+        # Cria um incidente já resolvido para aparecer no histórico
+        Incidente.objects.create(
+            sistema='Lyceum',
+            status='Funcionando',
+            descricao='Incidente resolvido para teste',
+            resolvido=True
+        )
+ 
+    def tearDown(self):
+        User.objects.all().delete()
+        Incidente.objects.all().delete()
+ 
+    def _fazer_login_aluno(self):
+        self.browser.get(self.live_server_url + URL_LOGIN)
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_USUARIO).send_keys("aluno_teste")
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys("senha_aluno_123")
+        time.sleep(1)
+        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        time.sleep(2)
+ 
+    def test_historico_acessivel_sem_login(self):
+        """Histórico deve ser acessível sem precisar fazer login."""
+        self.browser.get(self.live_server_url + URL_HISTORICO)
+        time.sleep(2)
+        self.assertNotIn(URL_LOGIN, self.browser.current_url)
+        time.sleep(2)
+ 
+    def test_pagina_historico_carrega_sem_erro(self):
+        """A página de histórico deve carregar sem erros."""
+        self.browser.get(self.live_server_url + URL_HISTORICO)
+        time.sleep(2)
+        self.assertNotIn("Server Error", self.browser.title)
+        self.assertNotIn("Page not found", self.browser.title)
+        time.sleep(2)
+ 
+    def test_historico_exibe_incidente_resolvido(self):
+        """Histórico deve exibir incidentes que foram resolvidos."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HISTORICO)
+        time.sleep(2)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text.lower()
+        tem_conteudo = any(palavra in corpo for palavra in [
+            "lyceum", "histórico", "incidente", "resolvido", "nenhum"
+        ])
+        self.assertTrue(tem_conteudo, "Histórico não exibiu incidentes resolvidos.")
+        time.sleep(2)
+ 
+    def test_historico_exibe_data_dos_incidentes(self):
+        """Histórico deve exibir a data dos incidentes passados."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HISTORICO)
+        time.sleep(2)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text.lower()
+        tem_data = any(palavra in corpo for palavra in ["data", "/", "2025", "2026"])
+        self.assertTrue(tem_data, "Histórico não exibe a data dos incidentes.")
+        time.sleep(2)
+ 
+ 
+# -------------------------------------------------------
+# SCRUM-21 - TI MARCA INCIDENTE COMO RESOLVIDO
+# -------------------------------------------------------
+class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
+    """
+    Como membro da equipe de TI, quero marcar um incidente como resolvido,
+    para informar que o sistema voltou a funcionar normalmente.
+    """
+ 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = configurar_browser()
+ 
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+        super().tearDownClass()
+ 
+    def setUp(self):
+        self.admin = criar_admin()
+        self.browser.delete_all_cookies()
+ 
+    def tearDown(self):
+        User.objects.all().delete()
+        Incidente.objects.all().delete()
+ 
+    def _fazer_login_admin(self):
+        self.browser.get(self.live_server_url + URL_LOGIN)
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_USUARIO).send_keys(ADMIN_USER)
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
+        time.sleep(1)
+        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        time.sleep(2)
+ 
+    def test_ti_acessa_pagina_de_gerenciar(self):
+        """Membro da TI logado deve acessar a área de gerenciar incidentes."""
+        self._fazer_login_admin()
+        self.browser.get(self.live_server_url + URL_GERENCIAR)
+        time.sleep(2)
+        self.assertNotIn("Server Error", self.browser.title)
+        self.assertNotIn("Forbidden", self.browser.title)
+        time.sleep(2)
+ 
+    def test_usuario_sem_login_nao_acessa_gerenciar(self):
+        """Usuário sem login não deve conseguir acessar a página de gerenciar."""
+        self.browser.delete_all_cookies()
+        self.browser.get(self.live_server_url + URL_GERENCIAR)
+        time.sleep(2)
+        self.assertIn(URL_LOGIN, self.browser.current_url)
+        time.sleep(2)
+ 
+    def test_ti_marca_incidente_como_resolvido(self):
+        """TI consegue acessar editar incidente e marcá-lo como resolvido."""
+        # Cria incidente ativo
+        incidente = Incidente.objects.create(
+            sistema='Portal do Aluno',
+            status='Fora do Ar',
+            descricao='Sistema completamente fora do ar.',
+            resolvido=False
+        )
+        self._fazer_login_admin()
+ 
+        # Vai para gerenciar incidentes
+        self.browser.get(self.live_server_url + URL_GERENCIAR)
+        time.sleep(2)
+ 
+        # Clica em "Editar / Resolver"
+        self.browser.find_element(By.LINK_TEXT, "Editar / Resolver").click()
+        time.sleep(2)
+ 
+        # Clica em "Marcar como Resolvido"
+        botao_resolver = self.browser.find_element(
+            By.CSS_SELECTOR, "button[value='resolver']"
+        )
+        botao_resolver.click()
+        time.sleep(2)
+ 
+        # Verifica no banco que foi resolvido
+        incidente.refresh_from_db()
+        self.assertTrue(incidente.resolvido, "Incidente não foi marcado como resolvido!")
+        time.sleep(2)
+ 
+    def test_incidente_resolvido_some_do_dashboard(self):
+        """Incidente marcado como resolvido não deve aparecer no dashboard."""
+        incidente = Incidente.objects.create(
+            sistema='Chamada',
+            status='Instável',
+            descricao='Chamada instável.',
+            resolvido=False
+        )
+        self._fazer_login_admin()
+        self.browser.get(self.live_server_url + URL_GERENCIAR)
+        time.sleep(2)
+        self.browser.find_element(By.LINK_TEXT, "Editar / Resolver").click()
+        time.sleep(2)
+        self.browser.find_element(By.CSS_SELECTOR, "button[value='resolver']").click()
+        time.sleep(2)
+ 
+        # Volta para o dashboard e verifica que sumiu
+        self.browser.get(self.live_server_url + URL_HOME)
+        time.sleep(2)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text
+        self.assertNotIn("Chamada", corpo)
+        time.sleep(2)
+ 
+ 
+# -------------------------------------------------------
+# SCRUM-22 - ESTUDANTE DIFERENCIA PROBLEMA DE CONEXÃO
+# -------------------------------------------------------
+class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
+    """
+    Como estudante, gostaria de saber se o site acadêmico está fora do ar
+    ou se o problema está na minha conexão.
+    """
+ 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = configurar_browser()
+ 
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+        super().tearDownClass()
+ 
+    def setUp(self):
+        self.aluno = criar_aluno()
+        self.browser.delete_all_cookies()
+        Incidente.objects.create(
+            sistema='Portal do Aluno',
+            status='Fora do Ar',
+            descricao='Portal fora do ar.',
+            resolvido=False
+        )
+ 
+    def tearDown(self):
+        User.objects.all().delete()
+        Incidente.objects.all().delete()
+ 
+    def _fazer_login_aluno(self):
+        self.browser.get(self.live_server_url + URL_LOGIN)
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_USUARIO).send_keys("aluno_teste")
+        time.sleep(1)
+        self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys("senha_aluno_123")
+        time.sleep(1)
+        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        time.sleep(2)
+ 
+    def test_site_responde_e_esta_acessivel(self):
+        """O site do status deve estar acessível e retornar conteúdo válido."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HOME)
+        time.sleep(2)
+        self.assertNotIn("Server Error", self.browser.title)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text
+        self.assertTrue(len(corpo) > 0, "O site retornou uma página vazia.")
+        time.sleep(2)
+ 
+    def test_dashboard_exibe_sistema_fora_do_ar(self):
+        """Dashboard deve mostrar claramente que um sistema está fora do ar."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HOME)
+        time.sleep(2)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text.lower()
+        self.assertIn("fora do ar", corpo, "Dashboard não indicou sistema fora do ar.")
+        time.sleep(2)
+ 
+    def test_indicador_vermelho_aparece_para_sistema_fora_do_ar(self):
+        """Indicador vermelho deve aparecer para sistema fora do ar."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HOME)
+        time.sleep(2)
+        pontos_vermelhos = self.browser.find_elements(By.CSS_SELECTOR, ".ponto.vermelho")
+        self.assertGreater(len(pontos_vermelhos), 0, "Nenhum indicador vermelho encontrado.")
+        time.sleep(2)
+ 
+    def test_nome_sistema_afetado_aparece_no_dashboard(self):
+        """O nome do sistema afetado deve aparecer no dashboard."""
+        self._fazer_login_aluno()
+        self.browser.get(self.live_server_url + URL_HOME)
+        time.sleep(2)
+        corpo = self.browser.find_element(By.TAG_NAME, "body").text
+        self.assertIn("Portal do Aluno", corpo, "Nome do sistema afetado não apareceu.")
+        time.sleep(2)
+
 
 # -------------------------------------------------------
-# HISTÓRIA 1 - MEMBRO DE TI REGISTRA NOVO INCIDENTE
+# HISTÓRIA 233 - MEMBRO DE TI REGISTRA NOVO INCIDENTE
 # -------------------------------------------------------
+
 class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
     """
-    História 1:
+    História 23:
     Como membro da equipe de TI, gostaria de registrar um novo incidente
     no sistema, para informar a comunidade acadêmica sobre instabilidades.
     """
@@ -191,11 +463,11 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
 
 
 # -------------------------------------------------------
-# HISTÓRIA 2 - TELA DE LOGIN PARA ALUNO E ADMIN
+# HISTÓRIA 28 - TELA DE LOGIN PARA ALUNO E ADMIN
 # -------------------------------------------------------
 class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
     """
-    História 2:
+    História 28:
     Criação de uma tela de login para o usuário logar
     como um aluno ou um ADMIN entrar no sistema.
     """
@@ -298,11 +570,11 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
 
 
 # -------------------------------------------------------
-# HISTÓRIA 3 - ADMIN CADASTRA NOVO ALUNO
+# HISTÓRIA 29 - ADMIN CADASTRA NOVO ALUNO
 # -------------------------------------------------------
 class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
     """
-    História 3:
+    História 29:
     Como ADMIN, gostaria de criar um cadastro de um aluno novo
     usando Email + Senha.
     """
