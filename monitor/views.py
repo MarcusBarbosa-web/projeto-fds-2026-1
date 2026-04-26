@@ -19,7 +19,7 @@ def historico(request):
 def registrar_incidente(request):
     return render(request, 'monitor/registrar_novo.html')
 
-
+@login_required(login_url='/login/')
 def incidentes_ativos(request):
     if request.method == 'POST':
         sistema_form = request.POST.get('sistema')
