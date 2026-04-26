@@ -29,6 +29,7 @@ ADMIN_PASS  = "senha_ti_123"
 
 def configurar_browser():
     options = webdriver.ChromeOptions()
+    options.add_argument("--headless") # comentar essa linha quando for fazer o video
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     browser = webdriver.Chrome(
