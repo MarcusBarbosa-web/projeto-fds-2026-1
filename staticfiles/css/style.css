@@ -1,0 +1,549 @@
+/* =======================================================
+   1. VARIÁVEIS E RESET GERAL (Aplicado em todo o site)
+======================================================= */
+:root {
+    --cor-principal: #ff6002;
+    --cor-texto: #fff;
+    --texto-escuro: #333;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    overflow: hidden;
+}
+
+/* =======================================================
+   2. CABEÇALHO PADRÃO (base.html)
+======================================================= */
+.navbar {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #444;
+}
+
+.logo {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+}
+
+.info-usuario {
+    text-align: right;
+    margin-right: 15px;
+}
+
+.username {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logar {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.logar:hover {
+    text-decoration: underline;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatar svg {
+    width: 30px;
+    fill: #999;
+}
+
+/* Botão voltar padrão (Laranja) */
+.btn-voltar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-voltar:hover {
+    background-color: #e15300;
+    transform: translateX(-5px);
+}
+
+/* =======================================================
+   3. DASHBOARD PÚBLICO (index.html - Faróis/Sinais)
+======================================================= */
+.canva {
+    background-color: #fff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.dashbord {
+    border: 12px solid var(--cor-principal);
+    border-radius: 60px;
+    padding: 50px;
+    width: 580px;
+    background-color: white;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo-dashbord {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 8px 40px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.lista-status {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.lista-status:last-child {
+    margin-bottom: 0;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-status h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--texto-escuro);
+}
+
+.info-status p {
+    margin: 2px 0;
+    font-size: 0.75rem;
+    color: var(--texto-escuro);
+}
+
+/* Indicadores Coloridos (Verde, Amarelo, Vermelho) */
+.indicador-status {
+    display: flex;
+    align-items: center;
+    width: 140px;
+    justify-content: flex-start;
+}
+
+.ponto {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+.verde {
+    background-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.vermelho {
+    background-color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.amarelo {
+    background-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.texto-status {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-acao {
+    margin-top: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+    padding: 12px 28px;
+    border-radius: 18px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #e15300;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* =======================================================
+   4. PÁGINA DE LOGIN (login.html)
+======================================================= */
+.body-login {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-cartao {
+    width: 450px;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-header {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+    padding: 20px;
+    text-align: center;
+}
+
+.login-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.login-conteudo {
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border: 5px solid var(--cor-principal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.login-avatar svg {
+    width: 60px;
+    fill: #999;
+}
+
+.forms-login {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.grupo-input {
+    width: 100%;
+}
+
+.grupo-input input {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 3px solid var(--cor-principal);
+    background-color: #d9d9d9;
+    color: var(--texto-escuro);
+    outline: none;
+    font-size: 14px;
+}
+
+.grupo-input input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+.btn-entrar {
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 12px 50px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+.btn-entrar:hover {
+    background-color: #e15300;
+    transform: translateY(-2px);
+}
+
+.erro-login {
+    color: #ff0000;
+    font-size: 12px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* =======================================================
+   5. HISTÓRICO DE INCIDENTES (historico.html)
+======================================================= */
+.historico-container {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Modificador do botão voltar para a tela de histórico */
+.historico-container .btn-voltar {
+    display: inline-block;
+    align-self: flex-start;
+    margin: 20px 0 20px 20px;
+    background-color: var(--cor-principal);
+    color: var(--cor-texto);
+    padding: 10px 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    position: static; /* Sobrescreve o absolute do topo */
+}
+
+.cartao-historico {
+    background-color: var(--cor-principal);
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cartao-historico h2 {
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.lista-incidentes {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.item-incidente p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--texto-escuro);
+}
+
+.item-incidente strong {
+    color: #000;
+}
+/* =======================================================
+   6. TELA DE INCIDENTES
+======================================================= */
+
+
+.container-reporte {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start; 
+    background-color: #f0f0f0;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.cartao-reporte {
+    background-color: var(--cor-principal);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    height: auto;
+    display: table;
+}
+
+.cartao-reporte h2 {
+    color: white;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Sistema de Colunas */
+.colunas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.coluna textarea {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 150px;
+    max-height: 300px;
+    width: 100%;
+}
+
+.coluna label {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--texto-escuro);
+}
+
+.coluna input, .coluna select, .coluna textarea {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.coluna input:focus, .coluna textarea:focus {
+    border-color: var(--cor-principal);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-enviar {
+    background-color: white;
+    color: var(--cor-principal);
+    border: none;
+    padding: 12px 40px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: #eee;
+    transform: scale(1.05);
+}
+
+.voltar-reporte {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; 
+    margin-bottom: 20px; 
+}
+
+.voltar-reporte .btn-voltar {
+    position: static; 
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.voltar-reporte .btn-voltar:hover {
+    background-color: #e15300;
+    transform: scale(1.05);
+}
+
+body {
+    overflow-y: auto;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+    .colunas-grid {
+        grid-template-columns: 1fr;
+    }
+}
