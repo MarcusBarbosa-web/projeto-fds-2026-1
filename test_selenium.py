@@ -17,8 +17,8 @@ URL_CADASTRO_ALUNO = "/cadastro/"
 URL_LOGOUT         = "/logout/"
 URL_GERENCIAR      = "/gerenciar/"
 
-CAMPO_USUARIO  = "username"
-CAMPO_SENHA    = "password"
+CAMPO_USUARIO       = "username"
+CAMPO_SENHA         = "password"
 BOTAO_SUBMIT        = "button[type='submit']"
 BOTAO_ENVIAR_FORM   = "button.btn-enviar"
 
@@ -29,15 +29,23 @@ ADMIN_PASS  = "senha_ti_123"
 
 def configurar_browser():
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless") # comentar essa linha quando for fazer o video
+    options.add_argument("--headless")  # comentar essa linha quando for fazer o video
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1920,1080")  
     browser = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
         options=options
     )
     browser.implicitly_wait(5)
     return browser
+
+
+def clicar(browser, elemento):
+    """Clica em um elemento via JavaScript — funciona mesmo em headless/CI."""
+    browser.execute_script("arguments[0].scrollIntoView(true);", elemento)
+    time.sleep(0.3)
+    browser.execute_script("arguments[0].click();", elemento)
 
 
 def criar_admin():
@@ -47,6 +55,7 @@ def criar_admin():
         password=ADMIN_PASS
     )
 
+
 def criar_aluno():
     user, created = User.objects.get_or_create(username="aluno_teste")
     if created:
@@ -55,6 +64,9 @@ def criar_aluno():
     return user
 
 
+# -------------------------------------------------------
+# SCRUM-19 - ALUNO VISUALIZA STATUS DOS SISTEMAS
+# -------------------------------------------------------
 class SCRUM19_VisualizarStatusSistemas(StaticLiveServerTestCase):
 
     @classmethod
@@ -83,7 +95,7 @@ class SCRUM19_VisualizarStatusSistemas(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys("senha_aluno_123")
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
 
     def test_aluno_visualiza_status_na_home(self):
@@ -98,40 +110,36 @@ class SCRUM19_VisualizarStatusSistemas(StaticLiveServerTestCase):
         self.assertTrue(tem_status, "O Aluno não encontrou indicadores de status na página.")
         time.sleep(2)
 
+
 # -------------------------------------------------------
 # SCRUM-20 - ESTUDANTE VISUALIZA HISTÓRICO DE INCIDENTES
 # -------------------------------------------------------
 class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
-    """
-    Como estudante, quero visualizar o histórico de incidentes,
-    para entender problemas que aconteceram anteriormente nos sistemas.
-    """
- 
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.browser = configurar_browser()
- 
+
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
         super().tearDownClass()
- 
+
     def setUp(self):
         self.aluno = criar_aluno()
         self.browser.delete_all_cookies()
-        # Cria um incidente já resolvido para aparecer no histórico
         Incidente.objects.create(
             sistema='Lyceum',
             status='Funcionando',
             descricao='Incidente resolvido para teste',
             resolvido=True
         )
- 
+
     def tearDown(self):
         User.objects.all().delete()
         Incidente.objects.all().delete()
- 
+
     def _fazer_login_aluno(self):
         self.browser.get(self.live_server_url + URL_LOGIN)
         time.sleep(1)
@@ -139,16 +147,16 @@ class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys("senha_aluno_123")
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
- 
+
     def test_historico_acessivel_sem_login(self):
         """Histórico deve ser acessível sem precisar fazer login."""
         self.browser.get(self.live_server_url + URL_HISTORICO)
         time.sleep(2)
         self.assertNotIn(URL_LOGIN, self.browser.current_url)
         time.sleep(2)
- 
+
     def test_pagina_historico_carrega_sem_erro(self):
         """A página de histórico deve carregar sem erros."""
         self.browser.get(self.live_server_url + URL_HISTORICO)
@@ -156,7 +164,7 @@ class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
         self.assertNotIn("Server Error", self.browser.title)
         self.assertNotIn("Page not found", self.browser.title)
         time.sleep(2)
- 
+
     def test_historico_exibe_incidente_resolvido(self):
         """Histórico deve exibir incidentes que foram resolvidos."""
         self._fazer_login_aluno()
@@ -168,7 +176,7 @@ class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
         ])
         self.assertTrue(tem_conteudo, "Histórico não exibiu incidentes resolvidos.")
         time.sleep(2)
- 
+
     def test_historico_exibe_data_dos_incidentes(self):
         """Histórico deve exibir a data dos incidentes passados."""
         self._fazer_login_aluno()
@@ -178,35 +186,31 @@ class SCRUM20_VisualizarHistoricoIncidentes(StaticLiveServerTestCase):
         tem_data = any(palavra in corpo for palavra in ["data", "/", "2025", "2026"])
         self.assertTrue(tem_data, "Histórico não exibe a data dos incidentes.")
         time.sleep(2)
- 
- 
+
+
 # -------------------------------------------------------
 # SCRUM-21 - TI MARCA INCIDENTE COMO RESOLVIDO
 # -------------------------------------------------------
 class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
-    """
-    Como membro da equipe de TI, quero marcar um incidente como resolvido,
-    para informar que o sistema voltou a funcionar normalmente.
-    """
- 
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.browser = configurar_browser()
- 
+
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
         super().tearDownClass()
- 
+
     def setUp(self):
         self.admin = criar_admin()
         self.browser.delete_all_cookies()
- 
+
     def tearDown(self):
         User.objects.all().delete()
         Incidente.objects.all().delete()
- 
+
     def _fazer_login_admin(self):
         self.browser.get(self.live_server_url + URL_LOGIN)
         time.sleep(1)
@@ -214,9 +218,9 @@ class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
- 
+
     def test_ti_acessa_pagina_de_gerenciar(self):
         """Membro da TI logado deve acessar a área de gerenciar incidentes."""
         self._fazer_login_admin()
@@ -225,7 +229,7 @@ class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
         self.assertNotIn("Server Error", self.browser.title)
         self.assertNotIn("Forbidden", self.browser.title)
         time.sleep(2)
- 
+
     def test_usuario_sem_login_nao_acessa_gerenciar(self):
         """Usuário sem login não deve conseguir acessar a página de gerenciar."""
         self.browser.delete_all_cookies()
@@ -233,10 +237,9 @@ class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
         time.sleep(2)
         self.assertIn(URL_LOGIN, self.browser.current_url)
         time.sleep(2)
- 
+
     def test_ti_marca_incidente_como_resolvido(self):
         """TI consegue acessar editar incidente e marcá-lo como resolvido."""
-        # Cria incidente ativo
         incidente = Incidente.objects.create(
             sistema='Portal do Aluno',
             status='Fora do Ar',
@@ -244,27 +247,17 @@ class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
             resolvido=False
         )
         self._fazer_login_admin()
- 
-        # Vai para gerenciar incidentes
         self.browser.get(self.live_server_url + URL_GERENCIAR)
         time.sleep(2)
- 
-        # Clica em "Editar / Resolver"
-        self.browser.find_element(By.LINK_TEXT, "Editar / Resolver").click()
+        clicar(self.browser, self.browser.find_element(By.LINK_TEXT, "Editar / Resolver"))
         time.sleep(2)
- 
-        # Clica em "Marcar como Resolvido"
-        botao_resolver = self.browser.find_element(
-            By.CSS_SELECTOR, "button[value='resolver']"
-        )
-        botao_resolver.click()
+        botao = self.browser.find_element(By.CSS_SELECTOR, "button[value='resolver']")
+        clicar(self.browser, botao)
         time.sleep(2)
- 
-        # Verifica no banco que foi resolvido
         incidente.refresh_from_db()
         self.assertTrue(incidente.resolvido, "Incidente não foi marcado como resolvido!")
         time.sleep(2)
- 
+
     def test_incidente_resolvido_some_do_dashboard(self):
         """Incidente marcado como resolvido não deve aparecer no dashboard."""
         incidente = Incidente.objects.create(
@@ -276,38 +269,32 @@ class SCRUM21_MarcarIncidenteComoResolvido(StaticLiveServerTestCase):
         self._fazer_login_admin()
         self.browser.get(self.live_server_url + URL_GERENCIAR)
         time.sleep(2)
-        self.browser.find_element(By.LINK_TEXT, "Editar / Resolver").click()
+        clicar(self.browser, self.browser.find_element(By.LINK_TEXT, "Editar / Resolver"))
         time.sleep(2)
-        self.browser.find_element(By.CSS_SELECTOR, "button[value='resolver']").click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, "button[value='resolver']"))
         time.sleep(2)
- 
-        # Volta para o dashboard e verifica que sumiu
         self.browser.get(self.live_server_url + URL_HOME)
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, "body").text
         self.assertNotIn("Chamada", corpo)
         time.sleep(2)
- 
- 
+
+
 # -------------------------------------------------------
 # SCRUM-22 - ESTUDANTE DIFERENCIA PROBLEMA DE CONEXÃO
 # -------------------------------------------------------
 class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
-    """
-    Como estudante, gostaria de saber se o site acadêmico está fora do ar
-    ou se o problema está na minha conexão.
-    """
- 
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.browser = configurar_browser()
- 
+
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
         super().tearDownClass()
- 
+
     def setUp(self):
         self.aluno = criar_aluno()
         self.browser.delete_all_cookies()
@@ -317,11 +304,11 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
             descricao='Portal fora do ar.',
             resolvido=False
         )
- 
+
     def tearDown(self):
         User.objects.all().delete()
         Incidente.objects.all().delete()
- 
+
     def _fazer_login_aluno(self):
         self.browser.get(self.live_server_url + URL_LOGIN)
         time.sleep(1)
@@ -329,9 +316,9 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys("senha_aluno_123")
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
- 
+
     def test_site_responde_e_esta_acessivel(self):
         """O site do status deve estar acessível e retornar conteúdo válido."""
         self._fazer_login_aluno()
@@ -341,7 +328,7 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
         corpo = self.browser.find_element(By.TAG_NAME, "body").text
         self.assertTrue(len(corpo) > 0, "O site retornou uma página vazia.")
         time.sleep(2)
- 
+
     def test_dashboard_exibe_sistema_fora_do_ar(self):
         """Dashboard deve mostrar claramente que um sistema está fora do ar."""
         self._fazer_login_aluno()
@@ -350,7 +337,7 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
         corpo = self.browser.find_element(By.TAG_NAME, "body").text.lower()
         self.assertIn("fora do ar", corpo, "Dashboard não indicou sistema fora do ar.")
         time.sleep(2)
- 
+
     def test_indicador_vermelho_aparece_para_sistema_fora_do_ar(self):
         """Indicador vermelho deve aparecer para sistema fora do ar."""
         self._fazer_login_aluno()
@@ -359,7 +346,7 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
         pontos_vermelhos = self.browser.find_elements(By.CSS_SELECTOR, ".ponto.vermelho")
         self.assertGreater(len(pontos_vermelhos), 0, "Nenhum indicador vermelho encontrado.")
         time.sleep(2)
- 
+
     def test_nome_sistema_afetado_aparece_no_dashboard(self):
         """O nome do sistema afetado deve aparecer no dashboard."""
         self._fazer_login_aluno()
@@ -371,15 +358,9 @@ class SCRUM22_DiferenciarProblemaConexao(StaticLiveServerTestCase):
 
 
 # -------------------------------------------------------
-# HISTÓRIA 233 - MEMBRO DE TI REGISTRA NOVO INCIDENTE
+# SCRUM-23 - MEMBRO DE TI REGISTRA NOVO INCIDENTE
 # -------------------------------------------------------
-
 class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
-    """
-    História 23:
-    Como membro da equipe de TI, gostaria de registrar um novo incidente
-    no sistema, para informar a comunidade acadêmica sobre instabilidades.
-    """
 
     @classmethod
     def setUpClass(cls):
@@ -392,7 +373,6 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
         super().tearDownClass()
 
     def setUp(self):
-        # Recria admin e limpa cookies a cada teste para garantir sessão limpa
         self.admin = criar_admin()
         self.browser.delete_all_cookies()
 
@@ -407,7 +387,7 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
 
     def test_ti_registra_incidente_instavel(self):
@@ -421,7 +401,7 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'descricao').send_keys('Sistema com lentidão desde as 14h.')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         self.assertIn(URL_HOME, self.browser.current_url)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
@@ -439,7 +419,7 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'descricao').send_keys('Portal completamente fora do ar.')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         pontos_vermelhos = self.browser.find_elements(By.CSS_SELECTOR, '.ponto.vermelho')
         self.assertGreater(len(pontos_vermelhos), 0)
@@ -456,7 +436,7 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'descricao').send_keys('Chamada instável.')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         pontos_amarelos = self.browser.find_elements(By.CSS_SELECTOR, '.ponto.amarelo')
         self.assertGreater(len(pontos_amarelos), 0)
@@ -464,14 +444,9 @@ class SCRUM_Historia1_RegistrarIncidente(StaticLiveServerTestCase):
 
 
 # -------------------------------------------------------
-# HISTÓRIA 28 - TELA DE LOGIN PARA ALUNO E ADMIN
+# SCRUM-28 - TELA DE LOGIN PARA ALUNO E ADMIN
 # -------------------------------------------------------
 class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
-    """
-    História 28:
-    Criação de uma tela de login para o usuário logar
-    como um aluno ou um ADMIN entrar no sistema.
-    """
 
     @classmethod
     def setUpClass(cls):
@@ -506,7 +481,7 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys('senha_aluno_123')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         self.assertIn(URL_HOME, self.browser.current_url)
         time.sleep(2)
@@ -519,7 +494,7 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('Cadastrar Usuário', corpo)
@@ -534,7 +509,7 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys('senha_aluno_123')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertNotIn('Cadastrar Usuário', corpo)
@@ -549,7 +524,7 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys('senha_errada')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text.lower()
         self.assertIn('incorretos', corpo)
@@ -563,7 +538,7 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         username_elemento = self.browser.find_element(By.CSS_SELECTOR, '.username')
         self.assertIn(ADMIN_USER, username_elemento.text)
@@ -571,14 +546,9 @@ class SCRUM_Historia2_TelaLogin(StaticLiveServerTestCase):
 
 
 # -------------------------------------------------------
-# HISTÓRIA 29 - ADMIN CADASTRA NOVO ALUNO
+# SCRUM-29 - ADMIN CADASTRA NOVO ALUNO
 # -------------------------------------------------------
 class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
-    """
-    História 29:
-    Como ADMIN, gostaria de criar um cadastro de um aluno novo
-    usando Email + Senha.
-    """
 
     @classmethod
     def setUpClass(cls):
@@ -604,7 +574,7 @@ class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys(ADMIN_PASS)
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
 
     def test_admin_acessa_tela_de_cadastro(self):
@@ -626,7 +596,7 @@ class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'password2').send_keys('senha123')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('cadastrado com sucesso', corpo)
@@ -644,7 +614,7 @@ class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'password2').send_keys('diferente456')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('não coincidem', corpo)
@@ -662,7 +632,7 @@ class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'password2').send_keys('qualquer123')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
         corpo = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('Já existe', corpo)
@@ -679,22 +649,17 @@ class SCRUM_Historia3_CadastrarAluno(StaticLiveServerTestCase):
         time.sleep(1)
         self.browser.find_element(By.NAME, 'password2').send_keys('senha456')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_ENVIAR_FORM))
         time.sleep(2)
-
-        # Logout via URL direta com POST simulado — limpa cookies
         self.browser.delete_all_cookies()
         time.sleep(1)
-
-        # Login com novo aluno
         self.browser.get(self.live_server_url + URL_LOGIN)
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_USUARIO).send_keys('novinho@cesar.school')
         time.sleep(1)
         self.browser.find_element(By.NAME, CAMPO_SENHA).send_keys('senha456')
         time.sleep(1)
-        self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT).click()
+        clicar(self.browser, self.browser.find_element(By.CSS_SELECTOR, BOTAO_SUBMIT))
         time.sleep(2)
         self.assertIn(URL_HOME, self.browser.current_url)
         time.sleep(2)
-        
