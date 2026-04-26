@@ -23,7 +23,7 @@ class Incidente(models.Model):
     ]
 
     sistema = models.CharField(max_length=50, choices=SISTEMA_CHOICES)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Funcionando')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Funcionando')
     descricao = models.TextField()
     prioridade = models.CharField(max_length=10, choices=PRIORIDADE_CHOICES, default='media')
     data_criacao = models.DateTimeField(default=timezone.now)
