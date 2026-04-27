@@ -117,15 +117,20 @@ No final, a gente sabe que usar pair programming de forma mais estruturada poder
 ---
 ### Screencast das novas histórias
 
+
+https://youtu.be/GlSuURG0YPY
+
 ---
+## Testes de Sistema (E2E) Automatizados
+
+https://youtu.be/P7W98dBqdx8
+
+--- 
 
 ### Bug/issues
 <img width="1259" height="307" alt="Captura de tela 2026-04-26 161630" src="https://github.com/user-attachments/assets/8a913d52-a02f-4ea7-96d1-bc62cd7d1315" />
 
 ---
-## Testes de Sistema (E2E) Automatizados
-
---- 
 
 ### Pair programming
 <details>
