@@ -16,8 +16,24 @@ def historico(request):
     return render(request, 'monitor/historico.html', {'incidentes': incidentes_resolvidos})
 
 
+@login_required(login_url='/login/')
 def registrar_incidente(request):
+    if request.method == 'POST':
+        sistema = request.POST.get('sistema')
+        status = request.POST.get('status')
+        descricao = request.POST.get('descricao')
+
+        Incidente.objects.create(
+            sistema=sistema,
+            status=status,
+            descricao=descricao,
+            prioridade='media'
+        )
+
+        return redirect('index')
+
     return render(request, 'monitor/registrar_novo.html')
+
 
 @login_required(login_url='/login/')
 def incidentes_ativos(request):
