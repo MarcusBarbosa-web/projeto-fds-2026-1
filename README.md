@@ -149,10 +149,12 @@ Ainda assim, a prática não foi abandonada: Milton e Marcos conseguiram se orga
 ## Jira
 
 ### Sprint 04
+<img width="1615" height="285" alt="image" src="https://github.com/user-attachments/assets/48cb5d1b-260a-49c2-bf17-aa82bd903126" />
 
 ---
 
 ### Quadro Jira
+<img width="982" height="692" alt="image" src="https://github.com/user-attachments/assets/f5f2eb9a-3d54-45b3-853d-628624ce7169" />
 
 ---
 ### CI/CD
@@ -165,13 +167,15 @@ Ainda assim, a prática não foi abandonada: Milton e Marcos conseguiram se orga
 --- 
 
 ### Bug/issues
+Como tínhamos apenas duas histórias e elas foram desenvolvidas em programação em par, a dupla Murilo e Arthur concluiu ambas sem nenhuma issue ou bug durante o desenvolvimento.
+![Uploading image.png…]()
 
 ---
 
 ### Pair programming
 <details>
 <summary>Saiba Mais</summary>
-
+Na última entrega, não utilizamos programação em par, pois tínhamos apenas duas novas histórias para implementar. No entanto, Murilo e Arthur trabalharam nessas duas histórias juntos.
 </details>
 </details>
 
