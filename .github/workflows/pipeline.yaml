@@ -4,36 +4,40 @@ on:
   push:
     branches:
       - main
-  
+  pull_request:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps: 
-    # vai fazer um git clone\checkout no repositorio 
-    - name: Checkout Code
-      uses: actions/checkout@v2
-    
-    #vai instalar o python
-    - name: Set up python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-    
-    # instala as dependencias 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+    steps:
+      # vai fazer um git clone\checkout no repositorio 
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    # vai rodar os testes
-    - name: Run teste
-      env:
-        SECRET_KEY: 'ci-fake-secret-key'
-        DEBUG: 'True'
-        DATABASE_URL: 'sqlite:///db.sqlite3'
-      run: python manage.py test
-    
+      #vai instalar o python
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # instala as dependencias 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # vai rodar os testes
+      - name: Run teste
+        env:
+          SECRET_KEY: 'ci-fake-secret-key'
+          DEBUG: 'True'
+          DATABASE_URL: 'sqlite:///db.sqlite3'
+        run: python manage.py test
+
   deploy:
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render
